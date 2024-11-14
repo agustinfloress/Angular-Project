@@ -1,0 +1,43 @@
+<h3>{{title}}</h3>
+        <button class="btn btn-primary m-2" [routerLink]="['/users/create']">Crear Usuario</button>
+
+
+@if (users.length==0) {
+    <div class="alert alert-warning">No hay usuarios en el sistema</div>
+}@else {
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>lastname</th>
+                <th>username</th>
+                <th>email</th>
+                @if (isAdmin()) {
+                    <th>remove</th>
+                    <th>update</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users; track $index) {
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.lastname}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                     @if (isAdmin()) {
+                         <td><button class="btn btn-danger" (click)="onRemove(user)">Remove</button></td>
+                         <td><button class="btn btn-info" (click)="onUpdate(user)">Update</button></td>
+                     }
+                </tr>
+            }
+        </tbody>
+        <div>
+            <button class="btn btn-primary btn-sm m-2"(click)="onPrev()" [disabled]="currentPage==0">Anterior</button>
+            <span>{{currentPage + 1}} / {{totalPages}}</span>
+            <button class="btn btn-primary btn-sm m-2" (click)="onNext()" [disabled]="currentPage>= totalPages-1"> Siguiente</button>
+        </div>
+    </table>
+}
